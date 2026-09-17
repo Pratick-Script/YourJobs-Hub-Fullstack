@@ -16,8 +16,7 @@ const userSchema = new mongoose.Schema({
     },
     resume: {
         type: String,
-        required: true
-
+        default: ''
     },
     image: {
         type: String,
