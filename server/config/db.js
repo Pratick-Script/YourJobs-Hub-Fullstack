@@ -12,7 +12,8 @@ const connectDB = async () => {
     });
 
     try {
-        await mongoose.connect(`${process.env.MONGODB_URI}/job-portal`);
+        const baseURI = (process.env.MONGODB_URI || '').replace(/\/+$/, '');
+        await mongoose.connect(`${baseURI}/job-portal`);
     } catch (error) {
         console.error("MongoDB Connection Error:", error.message);
     }

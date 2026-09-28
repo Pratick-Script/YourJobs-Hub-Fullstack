@@ -5,6 +5,11 @@ import connectDB from './config/db.js';
 import './config/instrument.js'
 import * as Sentry from "@sentry/node"
 import { clerkWebHooks } from './controllers/webhooks.js';
+import companyRoutes from './routes/companyRoutes.js'
+import connectCloudnary from './config/cloudnary.js';
+import jobRoutes from './routes/jobRoutes.js'
+import userRoutes from './routes/userRoutes.js'
+import { clerkMiddleware } from '@clerk/express';
 
 
 //initialize express 
@@ -12,11 +17,13 @@ const app = express();
 
 //connect to database
 await connectDB();
+await connectCloudnary();
 
 //Middlewares
 
 app.use(cors())
 app.use(express.json()); //Allows the backend to read JSON data coming from the frontend requests
+app.use(clerkMiddleware())
 
 
 //Routes
@@ -26,6 +33,9 @@ app.get("/debug-sentry", function mainHandler(req, res) {
     throw new Error("My first Sentry error!");
 });
 app.post('/webhooks', clerkWebHooks)
+app.use('/api/company', companyRoutes)
+app.use('/api/jobs', jobRoutes)
+app.use('/api/users', userRoutes)
 
 //Port
 const PORT = process.env.PORT || 5000;
