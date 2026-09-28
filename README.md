@@ -1,202 +1,341 @@
-# 💼 Job Portal - Frontend Web Application
+# 💼 YourJobs Hub - Full-Stack Job Portal Platform
 
-A modern, responsive, and feature-rich Job Portal frontend interface designed for seamless job discovery, application management, and recruiter workflows. Built using **React 19**, **Vite**, and **Tailwind CSS v4**, the application delivers a polished, intuitive user experience with dedicated portals for both job seekers and recruiters.
+[![React](https://img.shields.io/badge/React-19.x-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-8.x-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.x-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-5.x-000000?logo=express&logoColor=white)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Clerk](https://img.shields.io/badge/Auth-Clerk-6C47FF?logo=clerk&logoColor=white)](https://clerk.com/)
+[![Cloudinary](https://img.shields.io/badge/Storage-Cloudinary-3448C5?logo=cloudinary&logoColor=white)](https://cloudinary.com/)
+[![Deployed on Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com/)
+
+**YourJobs** is a modern, production-grade, full-stack recruitment and job search platform. Built with a decoupled **React 19 + Vite** frontend and an **Express 5 + MongoDB** backend, the platform bridges the gap between ambitious job seekers and forward-thinking recruiters through an intuitive, high-performance interface.
+
+---
+
+## 🌐 Live Deployments
+
+- 🚀 **Live Frontend Application**: [https://your-jobs-hub.vercel.app/](https://your-jobs-hub.vercel.app/)
+- ⚙️ **Production Backend API**: [https://yourjobshub-new-server.vercel.app](https://yourjobshub-new-server.vercel.app)
+- 📦 **GitHub Repository**: [https://github.com/Pratick-Script/YourJobs-Fullstack](https://github.com/Pratick-Script/YourJobs-Fullstack)
 
 ---
 
 ## 📑 Table of Contents
 
-- [Key UI Features](#-key-ui-features)
-  - [🔐 Clerk Authentication](#-clerk-authentication)
-  - [🔍 Smart Search System](#-smart-search-system)
-  - [🎯 Multi-Criteria Filtering & Categorization](#-multi-criteria-filtering--categorization)
-  - [📋 Job Listings & Pagination](#-job-listings--pagination)
-  - [📄 Job Details & Rich-Text Experience](#-job-details--rich-text-experience)
-  - [📑 Application Tracking & Resume Management](#-application-tracking--resume-management)
-  - [🏢 Recruiter Management Dashboard](#-recruiter-management-dashboard)
-- [🎨 Design System & UI/UX Aesthetics](#-design-system--uiux-aesthetics)
-- [🛠 Tech Stack](#-tech-stack)
-- [📂 Directory Structure](#-directory-structure)
-- [🗺 Application Routes](#-application-routes)
-- [⚡ Global State Management](#-global-state-management)
-- [🚀 Quick Start & Setup](#-quick-start--setup)
-  - [Prerequisites](#prerequisites)
-  - [Environment Variables](#environment-variables)
-  - [Installation & Running](#installation--running)
-  - [Available Scripts](#available-scripts)
+- [Core Value Proposition](#-core-value-proposition)
+- [Key Features](#-key-features)
+  - [Job Seeker Experience](#-job-seeker-experience)
+  - [Recruiter & Employer Dashboard](#-recruiter--employer-dashboard)
+  - [Security, Auth & Storage Architecture](#-security-auth--storage-architecture)
+- [Tech Stack](#-tech-stack)
+- [Monorepo Directory Structure](#-monorepo-directory-structure)
+- [Application Flow & Routes](#-application-flow--routes)
+- [RESTful API Reference](#-restful-api-reference)
+- [Environment Variables](#-environment-variables)
+- [Local Development & Quick Start](#-local-development--quick-start)
+- [Deployment Guide](#-deployment-guide)
+- [Author & License](#-author--license)
 
 ---
 
-## ✨ Key UI Features
+## 💡 Core Value Proposition
 
-### 🔐 Clerk Authentication
-- **User Authentication**: Integrated with `@clerk/react` for frictionless sign-in and sign-up flows.
-- **Header Profile Controls**:
-  - Unauthenticated users see quick-action buttons (`Login` and `Recruiter Login`).
-  - Authenticated users receive an interactive `<UserButton />` menu showing profile details, user greeting (`Hi, {name}`), and a direct navigation shortcut to `/applications`.
-- **Recruiter Login Modal**:
-  - Dedicated popover dialog with backdrop blur (`backdrop-blur-sm bg-black/30`).
-  - Seamless toggle between **Login** and **Sign Up**.
-  - Includes company branding controls with interactive company logo image upload during recruiter onboarding.
-
-### 🔍 Smart Search System
-- **Hero Search Bar**:
-  - Dual-input search interface allowing candidates to search simultaneously by **Job Title / Keyword** and **Location**.
-  - Powered by React `useRef` for instant capture and synchronization with global search state.
-- **Dynamic Search Feedback**:
-  - If a search query is active, the job listings section displays active search chips for quick removal (`cross_icon`).
-  - Instant "Clear All" action to reset back to all available openings.
-
-### 📑 Application Tracking & Resume Management (`/applications`)
-- **Interactive Resume Uploader**:
-  - Toggle between viewing the current attached resume and uploading a new PDF resume.
-  - File picker restricted to `.pdf` format with preview badge.
-- **Applications Status Table**:
-  - Tabular layout displaying company logo & name, job role, location, application date (formatted with `moment(date).format('ll')`), and status badge (*Pending*, *Accepted*, *Rejected*).
-  - Responsive table design hiding non-essential columns on mobile devices.
-
-### 🏢 Recruiter Management Dashboard (`/dashboard`)
-A dedicated recruiter management portal with a left-hand navigation sidebar:
-- **Add Job (`/dashboard/add-job`)**:
-  - Full-featured job publishing form.
-  - **Quill.js Rich Text Editor** (`quill.snow.css`) allowing recruiters to author styled job specifications with lists, bold/italic text, and formatting.
-  - Dropdown selectors for Job Category, Job Location, Seniority Level, and salary CTC input.
-- **Manage Jobs (`/dashboard/manage-job`)**:
-  - Overview table of all posted jobs with publication date, location, total applicant counter, and live **Visibility Toggle Checkboxes**.
-  - Direct call-to-action button to navigate to Add Job.
-- **View Applications (`/dashboard/view-application`)**:
-  - Applicant review interface displaying applicant avatar, full name, applied position, location, and a direct download button for the candidate's PDF resume.
-  - Floating action menu (`...`) enabling recruiters to mark applications as **Accept** or **Reject**.
+- **Frictionless Candidate Journey**: Instant search across keywords, locations, and categories with real-time status tracking for applied jobs.
+- **Enterprise-Grade Recruiter Tools**: Self-service company onboarding, interactive job posting with rich-text editor (Quill.js), applicant pipeline tracking, and one-click status updates.
+- **Modern Cloud Ecosystem**: Authenticated sessions via Clerk, media storage (PDF resumes & company logos) powered by Cloudinary, and production monitoring via Sentry.
 
 ---
 
-## 🎨 Design System & UI/UX Aesthetics
+## ✨ Key Features
 
-- **Tailwind CSS v4**: Fast, streamlined styling using the latest `@tailwindcss/vite` engine.
-- **Modern Typography**:
-  - Primary Font: **Outfit** for clean headings and readable interfaces.
-  - Secondary Fonts: **Montserrat** and **Mulish** for badges and numbers.
-- **Rich-Text Styling**: Custom CSS class `.rich-text` ensuring rich descriptions match the modern violet/purple theme.
-- **Responsive Layout**: Designed mobile-first, ensuring smooth navigation across mobile screens, tablets, laptops, and ultra-wide displays (`2xl:px-20`).
+### 👤 Job Seeker Experience
+- **Smart Dual-Bar Search**: Search concurrently by job role/keyword and city/location.
+- **Dynamic Multi-Filters**: Filter postings by Category (Engineering, Design, Marketing, etc.) and Location with active search tag pills for quick resets.
+- **Rich Job Profiles**: Detailed job view with formatted job descriptions, responsibilities, salary ranges (CTC), and required experience level.
+- **1-Click Application Flow**: Fast job application submission tied to the authenticated user's profile and uploaded resume.
+- **Resume Management & In-App Preview**:
+  - Secure PDF resume uploads hosted on Cloudinary CDN.
+  - Interactive in-app PDF preview modal allowing candidates to verify their active resume anytime without leaving the page.
+- **Application Tracking Dashboard (`/applications`)**:
+  - Real-time tabular dashboard displaying applied company, job title, application date, and color-coded status badges (**Pending**, **Accepted**, **Rejected**).
+
+### 🏢 Recruiter & Employer Dashboard
+- **Company Authentication & Branding**:
+  - Secure company registration and JWT-based login.
+  - Custom company logo upload during signup, automatically optimized and served via Cloudinary.
+- **Job Creation Suite (`/dashboard/add-job`)**:
+  - Integrated **Quill.js WYSIWYG editor** allowing recruiters to format rich job specifications with headings, bullet points, and emphasis.
+  - Dropdown selectors for Category, Location, Experience Level, and Salary (CTC).
+- **Postings Manager (`/dashboard/manage-job`)**:
+  - Live data table showing all company postings, publication dates, and total candidate counts.
+  - Real-time **Visibility Checkbox Toggle** allowing recruiters to activate or pause listings instantly.
+- **Applicant Pipeline Review (`/dashboard/view-application`)**:
+  - Candidate cards showing candidate photo, name, applied position, and direct PDF resume links.
+  - Quick action menu to mark candidate applications as **Accepted** or **Rejected**.
+
+### 🔒 Security, Auth & Storage Architecture
+- **Clerk Authentication**: Passwordless, Google OAuth, and secure session management for job candidates.
+- **Bcrypt & JWT Auth**: Salted password hashing and signed JSON Web Tokens for recruiter portal protection.
+- **Cloudinary CDN Integration**: Direct, secure binary storage and fast global delivery of candidate PDF resumes and company logos.
+- **Clerk Webhooks with Svix**: Real-time event synchronization to maintain MongoDB user records upon Clerk sign-up or profile update.
+- **Sentry Error Telemetry**: Automatic exception capture and performance tracing configured on the backend.
 
 ---
 
 ## 🛠 Tech Stack
 
-| Technology | Purpose |
+### Frontend (`client/`)
+| Technology | Description |
 | :--- | :--- |
-| **[React 19](https://react.dev/)** | Core UI library for modern, component-driven development |
-| **[Vite 8](https://vite.dev/)** | Lightning-fast development server with Hot Module Replacement (HMR) |
-| **[Tailwind CSS v4](https://tailwindcss.com/)** | Utility-first styling with `@tailwindcss/vite` |
-| **[React Router v7](https://reactrouter.com/)** | Client-side routing, nested routes, and URL parameter handling |
-| **[@clerk/react](https://clerk.com/)** | User authentication, identity sessions, and modal dialogs |
-| **[Quill.js](https://quilljs.com/)** | WYSIWYG rich text editor for drafting job descriptions |
-| **[Moment.js](https://momentjs.com/)** | Relative and formatted date representations |
-| **[k-convert](https://www.npmjs.com/package/k-convert)** | Numeric salary string conversion (e.g., `85000` -> `85k`) |
-| **[React Toastify](https://fkhadra.github.io/react-toastify/)** | User alerts and toast notifications |
-| **[Oxlint](https://oxc.rs/)** | High-speed JavaScript/JSX code linter |
+| **React 19** | Component-driven UI library with modern hooks |
+| **Vite 8** | Next-generation frontend tooling and lightning-fast HMR |
+| **Tailwind CSS v4** | Modern utility-first styling with `@tailwindcss/vite` |
+| **React Router v7** | Client-side declarative routing and nested layouts |
+| **@clerk/react** | User authentication, identity sessions, and user button modal |
+| **Quill.js** | WYSIWYG rich text editor for formatted job postings |
+| **Axios** | Promise-based HTTP client for API communication |
+| **Moment.js** | Human-readable relative date formatting |
+| **React Toastify** | Interactive notification banners and alerts |
+| **k-convert** | Smart salary number conversion (e.g., `85000` ➔ `85k`) |
+
+### Backend (`server/`)
+| Technology | Description |
+| :--- | :--- |
+| **Node.js** | Scalable JavaScript server-side runtime |
+| **Express 5** | High-performance REST API web framework |
+| **MongoDB & Mongoose** | Document database with strongly typed schemas |
+| **@clerk/express** | Express middleware verifying Clerk session JWTs |
+| **JSONWebToken & Bcrypt** | Recruiter authentication, password hashing, and token verification |
+| **Cloudinary SDK & Multer** | Multipart form handling and cloud file storage |
+| **Svix** | Cryptographic webhook signature verification |
+| **Sentry** | Full-stack application monitoring and error logging |
+| **CORS & Dotenv** | Cross-Origin Resource Sharing and environment configuration |
 
 ---
 
-## 📂 Directory Structure
+## 📂 Monorepo Directory Structure
 
 ```text
-client/
-├── public/
-│   └── Logo2.png              # App icon & brand favicon
-├── src/
-│   ├── assets/
-│   │   ├── assets.js          # SVG icons, company logos, mock data (jobsData, jobsApplied, etc.)
-│   │   └── ...                # Visual icons and branding graphics
-│   ├── components/
-│   │   ├── AppDownload.jsx    # Informational mobile app banner
-│   │   ├── Footer.jsx         # Footer with social channels & copyright
-│   │   ├── Hero.jsx           # Hero banner with keyword & location search inputs
-│   │   ├── JobCard.jsx        # Individual job card item with company info & CTC
-│   │   ├── JobListing.jsx     # Multi-filter sidebar, search chips, and paginated job grid
-│   │   ├── Loading.jsx        # Loading spinner component
-│   │   ├── Navbar.jsx         # Top navbar with brand logo, recruiter trigger, and Clerk auth
-│   │   └── RecruiterLogin.jsx # Modal popup for recruiter sign-in & company logo upload
-│   ├── context/
-│   │   └── AppContext.jsx     # Global Context API for search filters, jobs list, and recruiter modal
-│   ├── pages/
-│   │   ├── Addjobs.jsx        # Recruiter: Job posting form with Quill rich-text editor
-│   │   ├── Applications.jsx   # Candidate: Applied jobs history table & PDF resume manager
-│   │   ├── ApplyJob.jsx       # Candidate: Job details view, requirements, and apply action
-│   │   ├── Dashboard.jsx      # Recruiter: Shell layout with sidebar navigation and subroutes
-│   │   ├── Home.jsx           # Public home page combining Navbar, Hero, JobListings, Footer
-│   │   ├── ManageJob.jsx      # Recruiter: Data table of posted jobs & active toggles
-│   │   └── ViewApplication.jsx# Recruiter: Candidate list with resume access & Accept/Reject actions
-│   ├── App.jsx                # Application root with client route tree
-│   ├── index.css              # Global styles, fonts, and Quill rich-text stylesheet
-│   └── main.jsx               # Entry point with ClerkProvider and BrowserRouter
-├── .env                       # Local environment variables
-├── .env.example               # Template for environment variables
-├── package.json               # NPM scripts and dependency definitions
-└── vite.config.js             # Vite 8 config with React and Tailwind plugins
+Job-Portal/
+├── client/                          # Frontend Application (React 19 + Vite)
+│   ├── public/                      # Static assets & favicons
+│   ├── src/
+│   │   ├── assets/                  # Brand logos, category icons, and mock assets
+│   │   ├── components/              # Reusable UI components
+│   │   │   ├── AppDownload.jsx      # Mobile app call-to-action banner
+│   │   │   ├── Footer.jsx           # Site footer & social links
+│   │   │   ├── Hero.jsx             # Dual-input search hero section
+│   │   │   ├── JobCard.jsx          # Individual job card preview
+│   │   │   ├── JobListing.jsx       # Filter sidebar, search chips, and paginated grid
+│   │   │   ├── Loading.jsx          # Full-page / component loading spinner
+│   │   │   ├── Navbar.jsx           # Sticky header with Clerk auth & recruiter trigger
+│   │   │   └── RecruiterLogin.jsx   # Modal for recruiter login & company onboarding
+│   │   ├── context/
+│   │   │   └── AppContext.jsx       # Global application state (auth, jobs, user data)
+│   │   ├── pages/
+│   │   │   ├── Addjobs.jsx          # Recruiter: Job creation form with Quill editor
+│   │   │   ├── Applications.jsx     # Candidate: Applied jobs & PDF resume manager
+│   │   │   ├── ApplyJob.jsx         # Candidate: Detailed job view & 1-click apply
+│   │   │   ├── Dashboard.jsx        # Recruiter: Admin shell with sticky navigation
+│   │   │   ├── Home.jsx             # Public landing page
+│   │   │   ├── ManageJob.jsx        # Recruiter: Job list with visibility toggles
+│   │   │   └── ViewApplication.jsx  # Recruiter: Applicant review and status actions
+│   │   ├── App.jsx                  # Main route tree configuration
+│   │   ├── index.css                # Design tokens, fonts, and Quill styles
+│   │   └── main.jsx                 # Client entry point with ClerkProvider
+│   ├── package.json
+│   └── vite.config.js
+│
+├── server/                          # Backend API (Express 5 + MongoDB)
+│   ├── config/
+│   │   ├── cloudnary.js             # Cloudinary configuration
+│   │   ├── db.js                    # MongoDB Mongoose connection
+│   │   ├── instrument.js            # Sentry initialization
+│   │   └── multer.js                # Memory/file upload middleware
+│   ├── controllers/
+│   │   ├── companyController.js     # Recruiter onboarding, job posting & status controls
+│   │   ├── jobController.js         # Public job listings & detail retrieval
+│   │   ├── userController.js        # User profile, resume upload & job applications
+│   │   └── webhooks.js              # Clerk Svix webhook event handler
+│   ├── middleware/
+│   │   └── authMiddleware.js        # JWT protection middleware for recruiter endpoints
+│   ├── models/
+│   │   ├── Company.js               # Company profile schema (name, email, logo)
+│   │   ├── Job.js                   # Job posting schema (title, desc, CTC, status)
+│   │   ├── jobApplications.js       # Applications schema (jobId, userId, status)
+│   │   └── user.js                  # Candidate user schema (name, email, resume)
+│   ├── routes/
+│   │   ├── companyRoutes.js         # Endpoints for recruiter operations
+│   │   ├── jobRoutes.js             # Endpoints for public job listings
+│   │   └── userRoutes.js            # Endpoints for candidate actions
+│   ├── package.json
+│   ├── server.js                    # Express app entry & HTTP listener
+│   └── vercel.json                  # Serverless deployment configuration for Vercel
+│
+└── README.md                        # Master repository documentation
 ```
 
 ---
 
-## 🗺 Application Routes
+## 🗺 Application Flow & Routes
 
-| Path | Component | View Purpose |
+### Candidate Routes
+| Route | Component | Description |
 | :--- | :--- | :--- |
-| `/` | `Home.jsx` | Main landing page: Search Hero, partner logos, category filters, and job card listings |
-| `/apply-job/:id` | `ApplyJob.jsx` | Detailed job specification view with CTC, role requirements, and apply action |
-| `/applications` | `Applications.jsx` | Candidate portal: PDF resume upload and applied jobs tracking table |
-| `/dashboard` | `Dashboard.jsx` | Recruiter workspace shell with sidebar navigation |
-| `/dashboard/add-job` | `Addjobs.jsx` | Nested view: Publish a new opening with Quill.js rich text description |
-| `/dashboard/manage-job` | `ManageJob.jsx` | Nested view: Table of posted jobs, applicant counters, and visibility switches |
-| `/dashboard/view-application` | `ViewApplication.jsx` | Nested view: Candidate application cards with resume downloads and status actions |
+| `/` | `Home.jsx` | Landing page with Hero search, category filters, and job feed |
+| `/apply-job/:id` | `ApplyJob.jsx` | Full job breakdown, requirements, company info & apply trigger |
+| `/applications` | `Applications.jsx` | Candidate portal: PDF resume upload, in-app viewer, and application tracker |
+
+### Recruiter Routes
+| Route | Component | Description |
+| :--- | :--- | :--- |
+| `/dashboard` | `Dashboard.jsx` | Protected recruiter layout with sticky header & sidebar |
+| `/dashboard/add-job` | `Addjobs.jsx` | Rich-text job creation form powered by Quill |
+| `/dashboard/manage-job` | `ManageJob.jsx` | Table of posted jobs, applicant counters, and live visibility toggles |
+| `/dashboard/view-application` | `ViewApplication.jsx` | Candidate submission list with resume review and Accept/Reject buttons |
 
 ---
 
-## ⚡ Global State Management
+## 📡 RESTful API Reference
 
-The frontend uses React's **Context API** via `AppContext` (`src/context/AppContext.jsx`) to handle shared state across views:
+### 1. Job Endpoints (`/api/jobs`)
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/jobs` | Public | Fetch all active and visible job listings |
+| `GET` | `/api/jobs/:id` | Public | Fetch single job details by ID |
+
+### 2. Candidate Endpoints (`/api/users`)
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/users/user` | User (Clerk Auth) | Retrieve authenticated candidate profile data |
+| `POST` | `/api/users/apply` | User (Clerk Auth) | Submit job application for a specific posting |
+| `GET` | `/api/users/applications` | User (Clerk Auth) | Retrieve list of jobs applied to by current user |
+| `POST` | `/api/users/update-resume` | User (Clerk Auth) | Upload candidate PDF resume (stored on Cloudinary) |
+
+### 3. Recruiter Endpoints (`/api/company`)
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/company/register` | Public (Multer) | Register new recruiter account with company logo |
+| `POST` | `/api/company/login` | Public | Authenticate recruiter and return JWT token |
+| `GET` | `/api/company/company` | Recruiter (JWT) | Get logged-in recruiter company profile |
+| `POST` | `/api/company/post-job` | Recruiter (JWT) | Create and publish a new job opening |
+| `GET` | `/api/company/posted-jobs`| Recruiter (JWT) | List all jobs created by authenticated company |
+| `GET` | `/api/company/applicants` | Recruiter (JWT) | List all applicants across company's job postings |
+| `POST` | `/api/company/change-status` | Recruiter (JWT) | Update application status (`Accepted` / `Rejected`) |
+| `POST` | `/api/company/change-visibility` | Recruiter (JWT) | Toggle job posting visibility (active / paused) |
+
+### 4. Webhook & System Endpoints
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/` | Public | Health-check endpoint (`API WORKING`) |
+| `POST` | `/webhooks` | Svix Signature | Clerk authentication webhook for user sync |
 
 ---
 
-## 🚀 Quick Start & Setup
+## 🔐 Environment Variables
 
-### Prerequisites
-- [Node.js](https://nodejs.org/) (v18.x or later recommended)
-- [npm](https://www.npmjs.com/) (bundled with Node.js)
-
-### Environment Variables
-In the `client/` directory, create a `.env` file (refer to `client/.env.example`):
+### Client (`client/.env`)
+Create a `.env` file inside the `client/` folder:
 
 ```env
-VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key_here
+# Clerk Authentication Publishable Key (from Clerk Dashboard)
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# Backend Base URL (Local or Production)
+VITE_BACKEND_URL=http://localhost:5000
 ```
 
-> **Note**: You can get your free publishable key from the [Clerk Dashboard](https://dashboard.clerk.com/).
+### Server (`server/.env`)
+Create a `.env` file inside the `server/` folder:
 
-### Installation & Running
+```env
+# Server Port & Secrets
+PORT=5000
+JWT_SECRET=your_super_secret_jwt_key
 
-1. Open your terminal and navigate to the `client` folder:
-   ```bash
-   cd client
-   ```
+# MongoDB Connection String
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net
 
-2. Install the required dependencies:
-   ```bash
-   npm install
-   ```
+# Cloudinary Configuration (Media Storage)
+CLOUDNARY_NAME=your_cloudinary_cloud_name
+CLOUDNARY_API_KEY=your_cloudinary_api_key
+CLOUDNARY_SECRET_KEY=your_cloudinary_secret_key
 
-3. Launch the development server:
-   ```bash
-   npm run dev
-   ```
+# Clerk Backend Configuration
+CLERK_PUBLISHABLE_KEY=pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+CLERK_SECRET_KEY=sk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+CLERK_WEBHOOK_SECRET=whsec_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-4. Open your browser and navigate to `http://localhost:5173` (or the URL printed in your terminal).
+# Sentry Monitoring (Optional)
+SENTRY_DSN=your_sentry_dsn_url
+```
 
-### Available Scripts
+> ⚠️ **Important**: Ensure `VITE_CLERK_PUBLISHABLE_KEY` on the client and `CLERK_PUBLISHABLE_KEY` / `CLERK_SECRET_KEY` on the backend belong to the **same Clerk project instance** to prevent authentication mismatches.
 
-In the `client/` directory, you can run:
+---
 
-- **`npm run dev`**: Starts the Vite development server with Hot Module Replacement.
-- **`npm run build`**: Compiles and bundles the application for production inside the `dist/` folder.
-- **`npm run preview`**: Previews the production build locally.
-- **`npm run lint`**: Runs Oxlint to inspect and validate code quality.
+## 🚀 Local Development & Quick Start
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v18.x or later)
+- [MongoDB](https://www.mongodb.com/) (Local instance or MongoDB Atlas URI)
+- [Clerk Account](https://clerk.com/)
+- [Cloudinary Account](https://cloudinary.com/)
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Pratick-Script/YourJobs-Fullstack.git
+cd YourJobs-Fullstack
+```
+
+### 2. Setup & Start Backend Server
+```bash
+cd server
+npm install
+# Configure your server/.env file
+npm run server
+```
+*The backend API will start at `http://localhost:5000`.*
+
+### 3. Setup & Start Frontend Client
+In a new terminal window:
+```bash
+cd client
+npm install
+# Configure your client/.env file
+npm run dev
+```
+*The frontend application will start at `http://localhost:5173`.*
+
+---
+
+## 🚢 Deployment Guide
+
+### Deploying Backend to Vercel
+1. In the Vercel Dashboard, import the repository and set the **Root Directory** to `server`.
+2. Add all environment variables from `server/.env` into the Vercel Project Settings.
+3. Deploy! The included `server/vercel.json` configures the serverless rewrites automatically.
+
+### Deploying Frontend to Vercel
+1. In the Vercel Dashboard, import the repository and set the **Root Directory** to `client`.
+2. Framework preset: **Vite**.
+3. Add the frontend environment variables:
+   - `VITE_CLERK_PUBLISHABLE_KEY`
+   - `VITE_BACKEND_URL` (pointing to your deployed backend URL, e.g., `https://yourjobshub-new-server.vercel.app`)
+4. Deploy!
+
+---
+
+## 👨‍💻 Author & Contributions
+
+Created with ❤️ by **[Pratick Majhi](https://github.com/Pratick-Script)**.
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Pratick-Script/YourJobs-Fullstack/issues).
+
+---
+
+## 📄 License
+
+This project is licensed under the **ISC License**. Feel free to use and adapt it for your own recruitment and career portal solutions.

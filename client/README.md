@@ -1,6 +1,13 @@
-# Job Portal - Frontend Application
+# 💻 YourJobs - Frontend Client Application
+
+[![React](https://img.shields.io/badge/React-19.x-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-8.x-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.x-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Clerk](https://img.shields.io/badge/Auth-Clerk-6C47FF?logo=clerk&logoColor=white)](https://clerk.com/)
 
 A modern, responsive, and feature-rich Job Portal frontend built with **React 19**, **Vite**, and **Tailwind CSS v4**. This application provides an intuitive experience for both **job seekers** (browsing, searching, filtering, and tracking applications) and **recruiters** (posting jobs, managing postings, and reviewing candidate submissions).
+
+> 💡 **Full-Stack Project Documentation**: For the complete overview, backend Express API documentation, MongoDB schemas, and deployment instructions, refer to the master [Project Root README](../README.md).
 
 ---
 
@@ -170,10 +177,14 @@ The frontend utilizes React's **Context API** via `AppContext` (`src/context/App
 Create a `.env` file in the `client` directory (refer to `.env.example`):
 
 ```env
-VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key_here
+# Clerk Authentication Publishable Key (matching your backend Clerk instance)
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# Backend API Base URL
+VITE_BACKEND_URL=http://localhost:5000
 ```
 
-> **Note**: Obtain your publishable key from your [Clerk Dashboard](https://dashboard.clerk.com/).
+> **Note**: Obtain your publishable key from your [Clerk Dashboard](https://dashboard.clerk.com/). For production deployments, set `VITE_BACKEND_URL` to your live API endpoint.
 
 ### Running the Development Server
 
